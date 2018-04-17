@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+</head>
+
+<script>
+	function createRoundName() {
+		var firstName = document.getElementById('firstname').value;
+		var lastName = document.getElementById('lastnames').value;
+		var sex = document.getElementById('sex').value == '男' ? 'babyBoy' : 'babyGirl';
+		if(firstName == null || firstName.length == 0){
+//			alert('请输入姓氏！');
+			firstName = '张';
+//			return;
+		}
+		var name = '';
+		if(lastName == null || lastName.length == 0) {
+//			alert('您没有输入喜欢的字，使用系统默认字');
+			var names = getDefaultCharacter(sex);
+			name += names[Math.floor(Math.random()*10)];
+			name += names[Math.floor(Math.random()*10)];
+		}else {
+			var names = lastName.split('、');
+			name += names[Math.floor(Math.random()*10)];
+			name += names[Math.floor(Math.random()*10)];
+		}
+		
+		createResultElement(firstName + name);
+		
+	}
+	
+	function createResultElement(name) {
+		var p = document.createElement('p');
+		var node = document.createTextNode('恭喜您，宝贝的名字是：' + name);
+		p.appendChild(node);
+		var parent = document.getElementById('form');
+		parent.appendChild(p);
+	}
+	
+	function getDefaultCharacter(sex) {
+		return {babyBoy: '甫.子.仁.义.忠.信.廉.礼.智.睿.儒.俊.明.杰.力.勇.剑.锋.猛.刚.圣.宏.恒.天.山.富.贵.财.宝.亨.超.雄.强.壮.健.彪.骏.鹏'.split('.'),
+				babyGirl: '媛.姝.姬.婷.女.淑.娴.慧.仪.贞.巧.绣.黛.钗.钏.香.红.美.丽.倩.素.青.翠.爱.惠.喜.怡.雅.静瑛.珊.琼.璟.玥.瑄月.雪.雯.云.湄.春.杏.梅.莲.凤.燕.桃'.split('.')
+			   }[sex]
+	}
+	
+	function giveHintInput(sex) {
+		return getDefaultCharacter(sex).round(5).join('、');
+	}
+	
+</script>
+
+<body>
+宝宝起名工具
+<form action="check.asp" id='form' name="checkform"    
+           target="_blank">
+<p>姓<input type="text" id="firstname"></p>
+<p>喜欢的字<input type="text" id="lastnames" style='width: 500px' placeholder='输入喜欢的字，用、隔开'></p>
+<p>性别
+	<select id="sex">
+	  <option>男</option>
+	  <option>女</option>
+	</select>
+</p>
+<p><input type="reset" name="Reset"  value="重填">
+      <input type="button" value="提交" onClick="createRoundName()"></p>
+</form>
+
+</body>
+
+
+
+</html>
