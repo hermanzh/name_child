@@ -11,37 +11,40 @@
 		var lastName = document.getElementById('lastnames').value;
 		var sex = document.getElementById('sex').value == '男' ? 'babyBoy' : 'babyGirl';
 		if(firstName == null || firstName.length == 0){
-//			alert('请输入姓氏！');
 			firstName = '张';
-//			return;
 		}
+		var names = null;
 		var name = '';
 		if(lastName == null || lastName.length == 0) {
 //			alert('您没有输入喜欢的字，使用系统默认字');
-			var names = getDefaultCharacter(sex);
-			name += names[Math.floor(Math.random()*10)];
-			name += names[Math.floor(Math.random()*10)];
+			names = getDefaultCharacter(sex);
 		}else {
-			var names = lastName.split('、');
-			name += names[Math.floor(Math.random()*10)];
-			name += names[Math.floor(Math.random()*10)];
+			names = lastName.split('、');
 		}
+		
+		name += names[getRandomNo(0,names.length-1)];
+		name += names[getRandomNo(0,names.length-1)];
 		
 		createResultElement(firstName + name);
 		
 	}
 	
+	function getRandomNo(low,high) {
+		var interval = high - low + 1;
+		return Math.floor(Math.random()*interval + low);
+	}u
+	
 	function createResultElement(name) {
 		var p = document.createElement('p');
-		var node = document.createTextNode('恭喜您，宝贝的名字是：' + name);
+		var node = document.createTextNode(name);
 		p.appendChild(node);
 		var parent = document.getElementById('form');
 		parent.appendChild(p);
 	}
 	
 	function getDefaultCharacter(sex) {
-		return {babyBoy: '甫.子.仁.义.忠.信.廉.礼.智.睿.儒.俊.明.杰.力.勇.剑.锋.猛.刚.圣.宏.恒.天.山.富.贵.财.宝.亨.超.雄.强.壮.健.彪.骏.鹏'.split('.'),
-				babyGirl: '媛.姝.姬.婷.女.淑.娴.慧.仪.贞.巧.绣.黛.钗.钏.香.红.美.丽.倩.素.青.翠.爱.惠.喜.怡.雅.静瑛.珊.琼.璟.玥.瑄月.雪.雯.云.湄.春.杏.梅.莲.凤.燕.桃'.split('.')
+		return {babyBoy: '甫.子.仁.义.忠.信.礼.智.睿.儒.俊.力.勇.圣.宏.恒.天.骏'.split('.'),
+				babyGirl: '媛.姝.姬.婷.淑.娴.慧.仪.贞.巧.绣.黛.钗.钏.香.倩.素.青.翠.惠.喜.怡.雅.静.瑛.珊.琼.璟.玥.瑄.月.雪.雯.云.湄.春.燕'.split('.')
 			   }[sex]
 	}
 	
@@ -55,7 +58,7 @@
 宝宝起名工具
 <form action="check.asp" id='form' name="checkform"    
            target="_blank">
-<p>姓<input type="text" id="firstname"></p>
+<p>姓<input type="text" id="firstname" placeholder="默认姓张"></p>
 <p>喜欢的字<input type="text" id="lastnames" style='width: 500px' placeholder='输入喜欢的字，用、隔开'></p>
 <p>性别
 	<select id="sex">
